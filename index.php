@@ -2,6 +2,12 @@
 
 require_once "lib/helpers.php";
 
-render(function() {
-    dd(relative_path(__FILE__)); 
+$data = [
+    'users' => getUsers(),
+];
+
+render($data, function($data) {
+?>
+<?php
+    dd(relative_path(__FILE__));
 });
