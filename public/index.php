@@ -2,8 +2,17 @@
 
 require_once "lib/helpers.php";
 
+try {
+    $sth = DB::pdo()->prepare("SELECT * FROM users");
+    $sth = pdo()->prepare("SELECT * FROM users");
+    $sth->execute([]);
+    $users = $sth->fetchAll();
+} catch (Exception $e) {
+    
+}
+
 $data = [
-    'users' => getUsers(),
+    'users' => $users,
 ];
 
 render($data, function($data) {
@@ -13,7 +22,6 @@ render($data, function($data) {
             <tr>
                 <th>Active</th>
                 <th>Employee Name</th>
-                <th>Location</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -22,12 +30,10 @@ render($data, function($data) {
             <tr>
                 <td><?= $user->active ? 'true' : 'false' ?></td>
                 <td><?= "{$user->first_name} {$user->last_name}" ?></td>
-                <td><?= $user->email ?></td>
                 <td><?= 'Edit | Delete' ?></td>
             </tr>
         <?php endforeach ?>
         </tbody>
-    </table>  
+    </table>
 <?php
-    dd(relative_path(__FILE__));
 });
