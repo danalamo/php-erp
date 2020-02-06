@@ -1,0 +1,26 @@
+body, body * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #eee;
+    padding: 0 10px;
+}
+
+.container {
+    margin: auto;
+    padding: 10px;
+    max-width: 1200px;
+    min-height: 400px;
+    background-color: #fff;
+}
+
+.menu-links {
+    text-align: center;
+    font-size: 18px;
+}
+.menu-links * {
+    padding: 20px;
+}
