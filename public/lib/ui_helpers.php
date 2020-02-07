@@ -33,3 +33,51 @@ function render($data, $callback) {
 <?php
 }
 
+function userForm($data) {
+?>
+    <form method="POST" id="user-form">
+        <div class="input-group">
+            <label for="fist">First Name</label>
+            <input
+                id="fist"
+                type="text"
+                name="first_name"
+                value="<?= _esc($data['user']->first_name) ?>"
+            >
+        </div>
+        <div class="input-group">
+            <label for="last">Last Name</label>
+            <input
+                id="last"
+                type="text"
+                name="last_name"
+                value="<?= _esc($data['user']->last_name) ?>"
+            >
+        </div>
+        <div class="input-group">
+            <label for="location">Location</label>
+            <select id="location" name="location_id">
+                <option>Select a Location</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="active">Active
+                <input
+                    id="active"
+                    type="checkbox"
+                    name="active"
+                    <?= $data['user']->active ? 'checked' : '' ?>
+                >
+            </label>
+            <br><br>
+        </div>
+        <div class="input-group">
+            <input id="save" type="submit" value="<?= $data['page_title'] ?>">
+        </div>
+        <?php if ('debug') : ?>
+            <h4>User data</h4>
+            <pre><?= json_encode($data['user'], JSON_PRETTY_PRINT) ?></pre>
+        <?php endif ?>
+    </form>
+<?php
+}

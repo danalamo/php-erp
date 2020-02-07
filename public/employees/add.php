@@ -2,12 +2,15 @@
 
 require_once "../lib/helpers.php";
 
-render([], function($data) {
-    ?>
-    <table>
-        <thead></thead>
-        <tbody></tbody>
-    </table>
-    <?php
-    dd(relative_path(__FILE__));
+$data['user'] = (object)[
+    'first_name' => '',
+    'last_name' => '',
+    'active' => false,
+    'location_id' => null,
+];
+
+$data['page_title'] = 'Add Employee';
+
+render($data, function($data) {
+    userForm($data);
 });
