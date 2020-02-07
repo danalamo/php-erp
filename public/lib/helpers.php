@@ -10,15 +10,33 @@ if (!defined('APP_ROOT')) {
     boot_application();
 }
 
-function relative_path($path) {
-    return str_replace(APP_ROOT, '', $path);
+function redirect($url) {
+    header("location: $url") && die();
 }
 
-function dd($object) {
-    print_r($object);
-}
-
+function arrget($obj, $key, $default = null) {
+    if (is_array($obj)) {
+        return array_key_exists($key, $obj) ? $obj[$key] : $default;
     }
+    if (is_object($obj)) {
+        return isset($obj->{$key}) ? $obj->{$key} : $default;
+    }
+    return $default;
+}
+
+function _esc($input) {
+    return htmlentities($input, ENT_QUOTES | ENT_HTML5, $encoding = 'UTF-8');
+}
+
+function req($key, $default = null) {
+    if (isset($_GET[$key])) {
+        return $_GET[$key];
+    }
+    if (isset($_POST[$key])) {
+        return $_POST[$key];
+    }
+    return $default;
+}
 
 function boot_application() {
     
@@ -39,9 +57,24 @@ function boot_application() {
     DB::build();
 }
 
+function relative_path($path) {
+    return str_replace(PUBLIC_ROOT, '', $path);
 }
 
+function env($key, $default = null) {
+    if ($value = getenv($key)) {
+        return $value;
     }
+    return $default;
 }
 
+function dump($object) {
+    echo "<pre>";
+    print_r($object);
+    echo "</pre>";
+}
+
+function dd($object) {
+    echo "<pre>";
+    print_r($object) && die();
 }
