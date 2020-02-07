@@ -40,17 +40,15 @@ column to display the user&#39;s status.
 ### Example with Ajax/jQuery:
 | Active | Employee Name    | Location      | Actions |
 |--|--|--|--|
-| ☐ | ~Mattern, Bryan~   | ~Atlanta, GA~   |  Edit    |
-| ☑ | Moghari, Jessica | Marietta, GA  |  Edit    |
+| ☐ | ~Mattern, Bryan~   | ~Atlanta, GA~   |  Edit \| Delete    |
+| ☑ | Moghari, Jessica   | Marietta, GA    |  Edit \| Delete    |
 
 ### Example without Ajax/jQuery:
-| Employee Name    | Location      | Status   | Actions        |
+| Active   | Employee Name    | Location      | Actions        |
 |--|--|--|--|
-| Mattern, Bryan   | Atlanta, GA   | Active   | Edit \| Delete |
-| Moghari, Jessica | Marietta, GA  | Inactive | Edit \| Delete |
+| Yes      | Mattern, Bryan   | Atlanta, GA   | Edit \| Delete |
+| No       | Moghari, Jessica | Marietta, GA  | Edit \| Delete |
 
-## Server Environment
-- [ ] The code should work on a shared LAMP environment.
 
 ## Deliverables
 Please deliver the final website, files and database schema. All
