@@ -21,6 +21,32 @@ function getUsersWithLocations($options) {
     return $sth->fetchAll();
 }
 
+function createUser() {
+    $sth = DB::pdo()->prepare($sql = "
+        INSERT INTO `users` (
+            location_id
+            ,first_name
+            ,last_name
+            ,active
+            ,created_at
+            ,updated_at
+        ) VALUES (
+            :location_id
+            ,:first_name
+            ,:last_name
+            ,:active
+            ,now()
+            ,now()
+        )
+    ");
+    $sth->execute([
+        ':location_id' => req('location_id'),
+        ':first_name' => req('first_name'),
+        ':last_name' => req('last_name'),
+        ':active' => (bool)req('active', false),
+    ]);
+}
+
 function getLocations() {
     $sth = DB::pdo()->prepare($sql = "
         SELECT * 

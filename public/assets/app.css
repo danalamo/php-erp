@@ -41,6 +41,40 @@ body {
 }
 
 
+.input-group * {
+    display: block;
+    width: 100%;
+    padding: 2px 0;
+    font-size: 16px;
+}
+
+.input-group input, .input-group select {
+    padding: .3em .5em;
+    border: 1px solid #aaa;
+    border-radius: 2px;
+    margin-bottom: .8em;
+}
+.input-group [type="checkbox"] {
+    width: auto;
+}
+.input-group input[type="submit"] {
+    cursor: pointer;
+    background-color: #ccc !important;
+}
+.input-group input[type="submit"]:hover {
+    background-color: #aaa !important;
+}
+
+.input-group select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background: none;
+    background-image: url('https://d30y9cdsu7xlg0.cloudfront.net/png/221782-200.png');
+    background-repeat: no-repeat, repeat;
+    background-position: right .5em top 50%, 0 0;
+    background-size: .9em, 100%;
+}
+
 table {
     width: 100%;
     min-width: 700px;
