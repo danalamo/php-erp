@@ -78,6 +78,14 @@ function updateUserById($user_id) {
     ]);
 }
 
+function deleteUserById($user_id) {
+    $sth = DB::pdo()->prepare($sql = "
+        DELETE FROM users 
+        WHERE id = :user_id
+    ");
+    $sth->execute([':user_id' => $user_id]);
+}
+
 function getLocations() {
     $sth = DB::pdo()->prepare($sql = "
         SELECT * 

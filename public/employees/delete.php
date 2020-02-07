@@ -2,16 +2,15 @@
 
 require_once "../lib/helpers.php";
 
-render([], function($data) {
-    ?>
-    <table>
-        <thead>
-            <tr><th></th></tr>
-        </thead>
-        <tbody>
-            <tr><td></td></tr>
-        </tbody>
-    </table>
-    <?php
-    dd(relative_path(__FILE__));
-});
+if (!$user_id = req('user_id')) {
+    redirect('/');
+}
+
+try {
+    deleteUserById($user_id);
+} catch (Exception $e) {
+    $data['error'] = $e;
+    dd($e);
+}
+
+redirect('/');
