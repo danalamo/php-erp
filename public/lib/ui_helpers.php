@@ -58,6 +58,14 @@ function userForm($data) {
             <label for="location">Location</label>
             <select id="location" name="location_id">
                 <option>Select a Location</option>
+                <?php foreach ($data['locations'] as $loc): ?>
+                    <option
+                        value="<?= _esc($loc->id) ?>"
+                        <?= $data['user']->location_id === $loc->id ? 'selected' : '' ?>
+                    >
+                        <?= _esc("$loc->line1, $loc->city $loc->state $loc->zip") ?>
+                    </option>
+                <?php endforeach ?>
             </select>
         </div>
         <div class="input-group">
@@ -77,6 +85,10 @@ function userForm($data) {
         <?php if ('debug') : ?>
             <h4>User data</h4>
             <pre><?= json_encode($data['user'], JSON_PRETTY_PRINT) ?></pre>
+            <?php if (req('first_name')) : ?>
+                <h4>POST data</h4>
+                <pre><?= json_encode($_POST, JSON_PRETTY_PRINT) ?></pre>
+            <?php endif ?>
         <?php endif ?>
     </form>
 <?php

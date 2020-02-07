@@ -48,6 +48,14 @@ render($data, function($data) {
                 </tr>
             </thead>
             <tbody>
+            <?php if (empty($data['users'])) : ?>
+                <tr>
+                    <td colspan="4" align="center">
+                        No Employees Found!
+                        Create one <a href="/employees/add.php">here</a>
+                    </td>
+                </tr>
+            <?php endif ?>
             <?php foreach($data['users'] as $user): ?>
                 <tr 
                     <?= $user->active ? '' : ' class="user-inactive" ' ?>
