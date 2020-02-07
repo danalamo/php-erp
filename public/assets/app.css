@@ -40,6 +40,10 @@ body {
     margin: 40px 0;
 }
 
+#user-form {
+    max-width: 400px; 
+    margin: auto;
+}
 
 .input-group * {
     display: block;

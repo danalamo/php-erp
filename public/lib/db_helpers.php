@@ -47,6 +47,37 @@ function createUser() {
     ]);
 }
 
+function getUserById($user_id) {
+    $sth = DB::pdo()->prepare($sql = "
+        SELECT * 
+        FROM users AS u 
+        WHERE u.id = :user_id
+    ");
+    $sth->execute([':user_id' => $user_id]);
+    return $sth->fetchObject();
+}
+
+function updateUserById($user_id) {
+    $active = req('active', false) ? 1 : 0;
+    
+    $sth = DB::pdo()->prepare($sql = "
+        UPDATE users SET
+            location_id = :location_id
+            ,first_name = :first_name
+            ,last_name = :last_name
+            ,active = :active
+            ,updated_at = now()
+        WHERE id = :user_id
+    ");
+    $sth->execute([
+        ':user_id' => $user_id,
+        ':location_id' => req('location_id'),
+        ':first_name' => req('first_name'),
+        ':last_name' => req('last_name'),
+        ':active' => (bool)req('active', false),
+    ]);
+}
+
 function getLocations() {
     $sth = DB::pdo()->prepare($sql = "
         SELECT * 
