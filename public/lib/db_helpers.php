@@ -1,5 +1,35 @@
 <?php
 
+function getUsersWithLocations($options) {
+    $column = arrget($options, 'column');
+    $direction = arrget($options, 'direction');
+    
+    $orderBy = ($column && $direction) ? "ORDER BY $column $direction" : "";
+    
+    $sth = DB::pdo()->prepare($sql = "
+        SELECT  
+            u.*
+            ,loc.line1 
+            ,loc.city 
+            ,loc.state 
+            ,loc.zip 
+        FROM users AS u
+        LEFT JOIN locations AS loc ON loc.id = u.location_id
+        $orderBy
+    ");
+    $sth->execute();
+    return $sth->fetchAll();
+}
+
+function getLocations() {
+    $sth = DB::pdo()->prepare($sql = "
+        SELECT * 
+        FROM locations
+    ");
+    $sth->execute();
+    return $sth->fetchAll();
+}
+
 function pdo() {
     $db = env('PHP_ERP_DB_NAME');
     $host = env('PHP_ERP_DB_HOST');

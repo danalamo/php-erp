@@ -2,18 +2,37 @@
 
 require_once "lib/helpers.php";
 
-try {
-    $sth = DB::pdo()->prepare("SELECT * FROM users");
-    $sth = pdo()->prepare("SELECT * FROM users");
-    $sth->execute([]);
-    $users = $sth->fetchAll();
-} catch (Exception $e) {
-    
+$column = 'last_name';
+$direction = 'asc';
+
+$sort = req('sort');
+$sort = explode(':', $sort);
+if (count($sort) > 1) {
+    $column = $sort[0];
+    $direction = $sort[1];
 }
 
 $data = [
-    'users' => $users,
+    'qstring' => [
+        'last_name' => "?sort=last_name:asc",
+        'active' => "?sort=active:asc",
+        'line1' => "?sort=line1:asc",
+    ],
 ];
+$toggled = $direction === 'asc' ? 'desc' : 'asc';
+$data['qstring'][$column] = "?sort={$column}:{$toggled}";
+
+try {
+    $users = getUsersWithLocations([
+        'column' => $column,
+        'direction' => $direction,
+    ]);
+    
+} catch (Exception $e) {
+    $data['exception'] = $e;
+}
+
+$data['users'] = $users;
 $data['page_title'] = 'Employee Directory';
 
 render($data, function($data) {
@@ -22,9 +41,9 @@ render($data, function($data) {
         <table class="stripped">
             <thead>
                 <tr>
-                    <th>Active</th>
-                    <th>Employee Name</th>
-                    <th>Location</th>
+                    <th><a href="<?= $data['qstring']['active'] ?>">Active</a></th>
+                    <th><a href="<?= $data['qstring']['last_name'] ?>">Employee Name</a></th>
+                    <th><a href="<?= $data['qstring']['line1'] ?>">Location</a></th>
                     <th>Actions</th>
                 </tr>
             </thead>
