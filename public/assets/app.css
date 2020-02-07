@@ -10,11 +10,17 @@ body {
 }
 
 .container {
-    margin: auto;
+    margin: 10px auto;
     padding: 10px;
-    max-width: 1200px;
+    max-width: 1000px;
     min-height: 600px;
+    box-shadow: 0px 1px 4px #aaa;
     background-color: #fff;
+    border-radius: 2px;
+}
+
+.center {
+    text-align: center;
 }
 
 .menu-links {
@@ -26,23 +32,49 @@ body {
     padding: 0 10px;
 }
 
+.page-title {
+    text-align: center;
+    margin: 10px 0;
+}
+.page-body {
+    margin: 40px 0;
+}
+
+
 table {
     width: 100%;
+    min-width: 700px;
     border-collapse: collapse;
+}
+
+.table.responsive {
+    overflow-x: scroll;
 }
 
 table.stripped tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-th, td {
+table th,
+table td {
     padding: 10px;
 }
 
-table tr:hover {
-    background-color: #f0f0f0 !important;
+table th {
+    background-color: #ddd;
 }
 
-th {
+table tr:hover, 
+table.stripped tr:hover 
+{
+    background-color: #eff3ff !important;
+}
+
+table.stripped tr.user-inactive {
+    text-decoration: line-through;
+    /*background-color: #fff9ed;*/
+}
+
+table th {
     text-align: left;
 }
