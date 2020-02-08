@@ -34,6 +34,10 @@ class App extends Component {
               <UserList data={data} />
             </Route>
             <Route path={route('react').userAdd} exact>
+              <UserAddEdit data={data} />
+            </Route>
+            <Route path={route('react').userEdit(':user_id')}>
+              <UserAddEdit data={data} />
             </Route>
           </Switch>
         </div>
