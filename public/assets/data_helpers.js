@@ -20,6 +20,13 @@ export const request = async (url, options = {}) => {
     })
 }
 
+export const route = (base) => ({
+  index: `/${base}`,
+  userAdd: `/${base}/employee/add`,
+  userEdit: (id) => `/${base}/employee/${id}/edit`,
+  userDelete: (id) => `/${base}/employee/${id}/delete`,
+})
+
 export const Api = {
   getUsersWithLocations: async (query = '') => {
     return await request(`/${query}`)
@@ -45,4 +52,13 @@ export const Api = {
   deleteUserById: async (user_id) => {
     return await request(`/employees/delete.php?user_id=${user_id}`)
   },
+}
+
+export const formatLocation = (loc) => {
+  return `
+    ${loc.line1}, 
+    ${loc.city}, 
+    ${loc.state}
+    ${loc.zip}
+  `
 }
