@@ -23,17 +23,17 @@ $toggled = $direction === 'asc' ? 'desc' : 'asc';
 $data['qstring'][$column] = "?sort={$column}:{$toggled}";
 
 try {
-    $users = getUsersWithLocations([
+    $data['users'] = getUsersWithLocations([
         'column' => $column,
         'direction' => $direction,
     ]);
     
 } catch (Exception $e) {
-    $data['exception'] = $e;
+    $data['errors'][] = "There was an problem loading the Users";
 }
 
-$data['users'] = $users;
 $data['page_title'] = 'Employee Directory';
+$data['index'] = true;
 
 render($data, function($data) {
 ?>
@@ -59,10 +59,11 @@ render($data, function($data) {
             <?php foreach($data['users'] as $user): ?>
                 <tr 
                     <?= $user->active ? '' : ' class="user-inactive" ' ?>
+                    
                 >
                     <td><?= $user->active ? 'Yes' : 'No' ?></td>
-                    <td><?= _esc("{$user->last_name}, {$user->first_name}") ?></td>
-                    <td><?= _esc("$user->line1; $user->city, $user->state $user->zip") ?></td>
+                    <td><?= _esc($user->last_name)?>, <?= _esc($user->first_name) ?></td>
+                    <td><?= formatLocation($user) ?></td>
                     <td>
                         <a href="/employees/edit.php?user_id=<?= $user->id ?>">edit</a>
                         | <a href="/employees/delete.php?user_id=<?= $user->id ?>">delete</a>

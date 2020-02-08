@@ -7,7 +7,7 @@ if (count($_POST)) {
         createUser();
         redirect('/');
     } catch (Exception $e) {
-        $data['error'] = $e;
+        $data['errors'][] = "There was a problem creating the User";
     }
 }
 
@@ -19,12 +19,13 @@ $data['user'] = (object)[
 ];
 
 try {
-    $data['locations'] = getLocations();   
+    $data['locations'] = getLocations(); 
 } catch (Exception $e) {
-    $data['exception'] = $e;
+    $data['errors'][] = "There was a problem loading the Locations";
 }
 
 $data['page_title'] = 'Add Employee';
+$data['add'] = true;
 
 render($data, function($data) {
     userForm($data);

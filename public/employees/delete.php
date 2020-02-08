@@ -9,8 +9,7 @@ if (!$user_id = req('user_id')) {
 try {
     deleteUserById($user_id);
 } catch (Exception $e) {
-    $data['error'] = $e;
-    dd($e);
+    $data['errors'][] = "There was a loading the User and Locations";
 }
 
 redirect('/');

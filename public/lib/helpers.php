@@ -4,10 +4,34 @@ if (!defined('APP_ROOT')) {
     define('APP_ROOT', str_replace('/public/lib', '', __DIR__));
     define('PUBLIC_ROOT', str_replace('/lib', '', __DIR__));
     
-    require_once "db_helpers.php";
-    require_once "ui_helpers.php";
-    
     boot_application();
+}
+
+function toJson($data) {
+    header('content-type: text/json');
+    die(json_encode($data));
+}
+
+function parsed_request_headers() {
+    $headers = [];
+    foreach ($_SERVER as $name => $value) {
+        if (substr($name, 0, 5) == 'HTTP_') {
+            $name = strtolower(str_replace('_', ' ', substr($name, 5)));
+            $headers[str_replace(' ', '-', ucwords($name))] = $value;
+        }
+    }
+    return $headers;
+}
+
+function wantsJSON() {
+    $headers = parsed_request_headers();
+    $accept = arrget($headers, 'Accept', '');
+    $contentType = arrget($headers, 'Content-Type', '');
+
+    return (bool)(
+        strpos(strtolower($contentType), 'json') !== false
+        || strpos(strtolower($accept), 'json') !== false
+    );
 }
 
 function redirect($url) {
@@ -24,10 +48,6 @@ function arrget($obj, $key, $default = null) {
     return $default;
 }
 
-function _esc($input) {
-    return htmlentities($input, ENT_QUOTES | ENT_HTML5, $encoding = 'UTF-8');
-}
-
 function req($key, $default = null) {
     if (isset($_GET[$key])) {
         return $_GET[$key];
@@ -39,6 +59,8 @@ function req($key, $default = null) {
 }
 
 function boot_application() {
+    require_once "db_helpers.php";
+    require_once "ui_helpers.php";
     
     if (!$handle = @fopen(APP_ROOT . '/.env', "r")) {
         die("<h1>Please setup your `.env` file</h1>");
@@ -55,6 +77,18 @@ function boot_application() {
     fclose($handle);
     
     DB::build();
+
+    if (env('APP_ENV') === 'prod') {
+        error_reporting(0);
+    }
+    
+    if (wantsJSON()) {
+        try {
+            if ($inputs = json_decode(file_get_contents('php://input'), true)){
+                $_POST = $inputs;
+            }
+        } catch (Exception $e) {}
+    }
 }
 
 function relative_path($path) {

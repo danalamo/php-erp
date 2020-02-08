@@ -1,0 +1,5 @@
+# redirect rules to avoid unnecessary exposure 
+RewriteRule ^/assets$       / [R=301,L]
+RewriteRule ^/employees$    / [R=301,L] 
+RewriteRule ^/lib$          / [R=301,L] 
+RewriteRule ^/react/src$    / [R=301,L] 
