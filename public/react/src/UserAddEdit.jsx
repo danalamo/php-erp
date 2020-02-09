@@ -54,8 +54,16 @@ class UserAddEdit extends Component {
   
   async onFormSubmit(e) {
     e.preventDefault()
-    
+    const inputs = e.target.getElementsByClassName('validate')
+    let errors = 0;
+    for (let target of inputs) {
+      errors += this.validate(target)
+    }
+    if (errors > 0) {
+      return;
+    }
     const { user } = this.state
+    
     const apiCall = user.id ? Api.updateUserById : Api.createUser
     const data = await apiCall(user)
     app.setState({ data })
@@ -70,6 +78,8 @@ class UserAddEdit extends Component {
     }
     this.setState(state)
     
+    this.validate(target)
+    
     if (window.erpDebug()) {
       console.log('target', {
         type: target.type,
@@ -79,6 +89,25 @@ class UserAddEdit extends Component {
         size: target.size,
         disabled: target.disabled,
       })
+    }
+  }
+  
+  validate(target, setState = true) {
+    switch (target.name) {
+      case 'active':
+        break;
+      default:
+        let state = this.state
+        delete state.errors[target.name]
+        if (target.value.length < 1) {
+          state.errors[target.name] = "This field is required"
+        }
+        if (setState) {
+          this.setState(state)
+        }
+        const len = Object.keys(state.errors).length
+        console.log('len', len)
+        return len
     }
   }
   
@@ -107,6 +136,8 @@ class UserAddEdit extends Component {
               value={user.first_name}
               onChange={this.handleChange}
             />
+            {errors.first_name && 
+              <label htmlFor="first" className="error">{errors.first_name}</label>}
           </div>
           <div className="input-group">
             <label htmlFor="last_name">Last Name</label>
@@ -118,6 +149,8 @@ class UserAddEdit extends Component {
               value={user.last_name}
               onChange={this.handleChange}
             />
+            {errors.last_name &&
+              <label htmlFor="first" className="error">{errors.last_name}</label>}
           </div>
           <div className="input-group">
             <label htmlFor="location_id">Location</label>
@@ -137,6 +170,8 @@ class UserAddEdit extends Component {
                 </option>
               ))}
             </select>
+            {errors.location_id &&
+              <label htmlFor="first" className="error">{errors.location_id}</label>}
           </div>
           <div className="input-group">
             <label htmlFor="active">Active
