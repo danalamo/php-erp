@@ -20,6 +20,28 @@ export const request = async (url, options = {}) => {
     })
 }
 
+export const vueRoute = (obj) => {
+  let $route = _.pick(obj, [
+    "meta",
+    "path",
+    "hash",
+    "query",
+    "params",
+    "fullPath",
+  ])
+  $route.matched = obj.matched.map(
+    (matched) => _.pick(matched, [
+      "path",
+      "regex",
+      //"components",
+      //"instances",
+      "meta",
+      "props",
+    ])
+  )
+  return JSON.stringify({ $route }, null, 2)
+}  
+
 export const route = (base) => ({
   index: `/${base}`,
   userAdd: `/${base}/employee/add`,

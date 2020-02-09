@@ -59,7 +59,18 @@ class UserList extends Component {
             <tr
               key={user.id}
               className={user.active == true ? '' : 'user-inactive'}>
-              <td>{user.active == true ? 'Yes' : 'No'}</td>
+              <td>
+                <input
+                  type="checkbox"
+                  name="active"
+                  defaultChecked={user.active == true}
+                  onClick={async () => {
+                    user.active = user.active == true ? false : true 
+                    const data = await Api.updateUserById(user)
+                    app.setState({ data })
+                  }}
+                />
+              </td>
               <td>{user.last_name}, {user.first_name}</td>
               <td>{formatLocation(user)}</td>
               <td>

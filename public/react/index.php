@@ -9,9 +9,7 @@ require_once "../lib/helpers.php";
 <head>
     <title>ERP</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php renderScrips() ?>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js"></script>
-    <link rel="stylesheet" href="../assets/app.css">
+    <?php renderHeadPartial() ?>
 </head>
 <body>
     <div class="container" id="react-app"></div>

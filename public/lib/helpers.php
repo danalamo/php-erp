@@ -35,7 +35,7 @@ function wantsJSON() {
 }
 
 function redirect($url) {
-    header("location: $url") && die();
+    header("location: {$url}") && die();
 }
 
 function arrget($obj, $key, $default = null) {

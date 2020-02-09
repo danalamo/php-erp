@@ -6,21 +6,19 @@ $column = 'last_name';
 $direction = 'asc';
 
 $sort = req('sort');
-$sort = explode(':', $sort);
+$sort = explode('.', $sort);
 if (count($sort) > 1) {
     $column = $sort[0];
     $direction = $sort[1];
 }
 
-$data = [
-    'qstring' => [
-        'last_name' => "?sort=last_name:asc",
-        'active' => "?sort=active:asc",
-        'line1' => "?sort=line1:asc",
-    ],
+$data['qstring'] = [
+    'last_name' => "?sort=last_name.asc",
+    'active' => "?sort=active.asc",
+    'line1' => "?sort=line1.asc",
 ];
 $toggled = $direction === 'asc' ? 'desc' : 'asc';
-$data['qstring'][$column] = "?sort={$column}:{$toggled}";
+$data['qstring'][$column] = "?sort={$column}.{$toggled}";
 
 try {
     $data['users'] = getUsersWithLocations([
@@ -36,6 +34,7 @@ $data['page_title'] = 'Employee Directory';
 $data['index'] = true;
 
 render($data, function($data) {
+    $path = arrget($data, 'path');
 ?>
     <div class="table responsive">
         <table class="stripped">
@@ -59,9 +58,24 @@ render($data, function($data) {
             <?php foreach($data['users'] as $user): ?>
                 <tr 
                     <?= $user->active ? '' : ' class="user-inactive" ' ?>
-                    
                 >
-                    <td><?= $user->active ? 'Yes' : 'No' ?></td>
+                    <td>
+                        <?php if ($path) : ?>
+                            <input 
+                                type="checkbox" 
+                                name="active"
+                                <?= $user->active ? 'checked' : '' ?>
+                                onclick="Lib.toggleActiveUser(this)"
+                            >
+                            <input
+                                type="hidden"
+                                name="user_json"
+                                value='<?= json_encode($user) ?>'
+                            >
+                        <?php else : ?>
+                            <?= $user->active ? 'Yes' : 'No' ?>
+                        <?php endif ?>
+                    </td>
                     <td><?= _esc($user->last_name)?>, <?= _esc($user->first_name) ?></td>
                     <td><?= formatLocation($user) ?></td>
                     <td>

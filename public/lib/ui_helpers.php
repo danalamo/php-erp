@@ -11,19 +11,24 @@ function formatLocation($location) {
         . _esc($location->zip); 
 }
 
-function renderScrips() {
+function renderHeadPartial() {
 ?>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <script 
         type="text/javascript" 
         src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js">
     </script>
     <script 
         type="text/javascript" 
-        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.slim.min.js">
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js">
     </script>
     <script 
         type="text/javascript" 
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js">
+    </script>
+    <script 
+        type="text/javascript" 
+        src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js">
     </script>
     <link rel="stylesheet" href="/assets/app.css">
 <?php
@@ -48,9 +53,28 @@ function renderFooter() {
         class="center debug" 
         onclick="toggleDebug()">
         de 🐞ug
+        <br><br>
     </div>
-    <br><br>
-    <script>
+    <script type="text/javascript">
+        var Lib = {
+          toggleActiveUser: function(target) {
+            var user_json = $(target).siblings('input[name=user_json]').val() 
+            var user = JSON.parse(user_json)
+            user.active = user.active == true ? false : true;
+            $.ajax('/employees/edit.php?user_id=' + user.id, {
+                method: 'POST',
+                headers: {
+                  'content-type': 'text/json',
+                  'accept': 'text/json',
+                },
+                data: JSON.stringify(user)
+              })
+              .then(function(res) {
+                console.log(res)
+                window.location.reload()
+              })
+          } 
+        }
         if (!window.sessionStorage) {
             window.sessionStorage = {}
             sessionStorage.erp_debug = 0
@@ -74,6 +98,10 @@ function renderFooter() {
     
 function render($data, $callback) {
     $title = arrget($data, 'page_title');
+    $qPath = '';
+    if ($path = arrget($data, 'path', '')) {
+        $qPath = "?path={$path}"; 
+    }
     if (wantsJSON()) {
         return toJson($data);
     }
@@ -84,20 +112,33 @@ function render($data, $callback) {
     <head>
         <title>ERP <?= $title ? " - $title" : "" ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <?php renderScrips() ?>
+        <?php renderHeadPartial() ?>
     </head>
     <body>
     <div class="container">
         <div class="menu-links">
-            <a href="/">HOME</a> |
+            <a href="/<?= $path ?>">HOME</a> |
             <span>
                 Employees: 
-                <a href="/employees/add.php">ADD</a>
+                <a href="/employees/add.php<?= $qPath ?>">ADD</a>
                 <!--                    
                 | <a href="/employees/edit.php">EDIT</a> 
                 | <a href="/employees/delete.php">DELETE</a>
                 -->
             </span>
+        </div>
+        <div class="center">
+            <?php if ($path) : ?>
+            <img 
+                style="width:45px;"
+                alt="jQuery Logo"
+                src="https://user-images.githubusercontent.com/4436664/34706800-857497bc-f555-11e7-9cb3-8811455abf76.gif">
+            <?php else: ?>
+            <img
+                style="width:85px;"
+                alt="PHP Logo"
+                src="https://cdn.freebiesupply.com/logos/large/2x/php-1-logo-png-transparent.png">
+            <?php endif ?>
         </div>
         <h1 class="page-title"><?= $title ?></h1>
         <div class="page-body"><?php $callback($data); ?></div>
