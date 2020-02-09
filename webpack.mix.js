@@ -10,10 +10,13 @@ let mix = require('laravel-mix');
  | file for your application, as well as bundling up your JS files.
  |
  */
+if (process.env.COMPILE === 'react') {
+  mix.react('public/react/src/App', 'public/react/app.js')
+}
+if (process.env.COMPILE === 'vue') {
+  mix.babelConfig({ "presets": ["@vue/babel-preset-jsx"] }).js('public/vue/src/App', 'public/vue/app.js')
+}
 
-mix
-  .react('public/react/src/App', 'public/react/app.js')
-  
 
 
 /*
