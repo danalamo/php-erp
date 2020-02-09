@@ -1,5 +1,8 @@
-# redirect rules to avoid unnecessary exposure 
+# Redirect rules to avoid unnecessary exposure 
 RewriteRule ^/assets$       / [R=301,L]
 RewriteRule ^/employees$    / [R=301,L] 
 RewriteRule ^/lib$          / [R=301,L] 
-RewriteRule ^/react/src$    / [R=301,L] 
+
+# Uncomment the below to hide the src jsx files
+#RewriteRule ^/react/src$    / [R=301,L] 
+#RewriteRule ^/vue/src$      / [R=301,L] 
