@@ -8,27 +8,27 @@ Create employee management pages for a fast food restaurant chain. The main page
 employee listing page displaying the employee's name, store-location, and status
 (active/inactive). The end user should be able to perform the following operations 
 on employees from the listing page: 
-- [ ] add 
-- [ ] edit 
-- [ ] sort 
-- [ ] activate & de-activate
+- [x] add 
+- [x] edit 
+- [x] sort 
+- [x] activate & de-activate
 
 Your database should include locations but you will not be
 required to create management pages for the chain&#39;s locations. This assignment should be
 programmed using procedural PHP. Do not use a framework.
 
 ## Pages
-- [ ] Employee Listing (index.php) – This page will display all of the company&#39;s employees
+- [x] Employee Listing (index.php) – This page will display all of the company&#39;s employees
 in alphabetical order (last, first). The page should display the employee&#39;s name, store
 location, and status. The end user should also be able to sort by each column
 displayed with data.
 *If you would like to use Ajax or jQuery, enable and disable the employee from this
 page. Otherwise, see “Delete Employee” below.
-- [ ] Add Employee (add.php) – This page will allow the end user to add an employee
+- [x] Add Employee (add.php) – This page will allow the end user to add an employee
 record. We will need to store the employee&#39;s name, store location, and status.
-- [ ] Edit Employee (edit.php) – This page will allow the end user to edit an employee&#39;s
+- [x] Edit Employee (edit.php) – This page will allow the end user to edit an employee&#39;s
 record. We should be able to update the employee&#39;s name, store location, and status.
-- [ ] Delete Employee (delete.php) - This page will allow the end user to enable or disable
+- [x] Delete Employee (delete.php) - This page will allow the end user to enable or disable
 an employee.
 
 ## Page Layouts
